@@ -1,0 +1,38 @@
+{
+  "$schema": "https://app.kilo.ai/config.json",
+  "disabled_providers": [],
+  "provider": {
+    "llama-cpp": {
+      "name": "llama.cpp",
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "baseURL": "http://127.0.0.1:9009/v1"
+      },
+      "models": {
+        "unsloth/Qwen3.5-4B-MTP-GGUF:UD-Q8_K_XL": {
+          "name": "Qwen3.5-MTP",
+          "reasoning": true
+        },
+        "unsloth/Qwen3.6-27B-MTP-GGUF:UD-Q4_K_XL": {
+          "name": "unsloth/Qwen3.6-27B-MTP-GGUF:UD-Q4_K_XL",
+          "reasoning": true
+        }
+      }
+    }
+  },
+  "mcp": {
+    "chrome-devtools": {
+      "type": "local",
+      "command": ["bunx", "-y", "chrome-devtools-mcp@latest"]
+    }
+  },
+  "permission": {
+    "bash": "allow",
+    "*": {
+      "*": "allow"
+    },
+    "read": {
+      "*": "allow"
+    }
+  }
+}
