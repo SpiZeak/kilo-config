@@ -10,19 +10,25 @@ agent sessions have accurate, project-scoped rules to follow.
 
 Issue all of these in a single message:
 
-1. Run !`git ls-files | head -200` to see tracked layout.
-2. Run !`git status && git log --oneline -10` to understand state.
-3. Read whichever manifest files exist: `package.json`, `pnpm-workspace.yaml`,
-   `bun.lock` (head), `deno.json`, `pyproject.toml`, `requirements.txt`,
-   `setup.py`, `Cargo.toml`, `rust-toolchain.toml`, `go.mod`, `composer.json`,
-   `build.gradle`, `pom.xml`, `mix.exs`.
-4. Read the formatter/linter config if present: `biome.json`, `.eslintrc*`,
+1. Check if the directory is a git repo (`!`ls -d .git``). If it is, run
+   !`git ls-files | head -200` and !`git status && git log --oneline -10` to
+   understand state; if not, list the top 2 directory levels instead and note
+   "not a git repo" under `## Gotchas`.
+2. Read whichever manifest files exist: `package.json`, `package-lock.json`
+   (head), `pnpm-workspace.yaml`, `yarn.lock`, `bun.lock` (head), `deno.json`,
+   `pyproject.toml`, `pdm.lock`, `requirements.txt`, `setup.py`, `Cargo.toml`,
+   `rust-toolchain.toml`, `go.mod`, `composer.json`, `build.gradle`,
+   `pom.xml`, `mix.exs`.
+3. Read the formatter/linter config if present: `biome.json`, `.eslintrc*`,
    `prettier.config.*`, `.editorconfig`, `ruff.toml`, `.clippy.toml`,
    `golangci.yml`, `.rubocop.yml`.
+4. Read toolchain pins: `.nvmrc`, `.tool-versions`, `Makefile` (a first-class
+   manifest for Go and polyglot projects, per global AGENTS.md §4.4).
 5. Read the test runner config: `vitest.config.*`, `jest.config.*`,
    `playwright.config.*`, `pytest.ini`, `conftest.py`.
-6. Detect the e2e runner (if any): grep for `playwright`, `cypress`,
-   `puppeteer`, `webdriverio`, `@playwright/test`. Read its config.
+6. Detect the e2e runner (if any): grep the source tree AND `.github/workflows/*`,
+   `.gitlab-ci.yml`, `Makefile` for `playwright`, `cypress`, `puppeteer`,
+   `webdriverio`, `@playwright/test`. Read its config.
 7. Detect seed/fixture scripts: `db:seed`, `prisma/seed.ts`, `seeds/`,
    `factories/`, `fixtures/`, `mock-server`, `msw` handlers, faker
    factories. A "verified" UI change requires populated data — the
@@ -101,8 +107,7 @@ Following the global AGENTS.md §14 rules:
 
 If `AGENTS.md` already exists at the repo root, do NOT overwrite. Produce a
 diff proposal only in your reply: list each section you would add or
-rewrite, and the proposed text, then stop and let the user decide via the
-`question` tool.
+rewrite, and the proposed text, then stop and let the user decide.
 
 If subdirectories hold their own domain (e.g. `admin/`, `app/`, `workers/`,
 `packages/*`), suggest one `AGENTS.md` per top-level subdirectory with only
@@ -120,18 +125,23 @@ For each command listed under `## Commands` and `## Verification Checklist`:
 - Run the unit test command in CI-equivalent mode; report PASS/FAIL and
   the test count.
 
+This phase is best-effort, not a gate. Set a 5-minute timeout per command;
+if a suite needs services/network or does not finish in time, stop, report
+`skipped (slow | requires <service>)`, and record why under `## Gotchas`.
 If any check fails in a way unrelated to your draft (e.g. pre-existing
 flaky test), document it under `## Gotchas`.
 
 ## Phase 5 - Handoff
 
-End your reply with this single short block:
+End your reply with this single short block — use `Wrote:` when a file was
+created, `Proposed:` with a path list when the existing-file branch was
+taken, and per-path `Stack`/`Commands`/`Verified` lines in monorepos:
 
 ```
-Wrote: <path> (new | updated)
-Stack: <one line>
-Commands: <list>
-Verified: typecheck <pass/fail>, lint <pass/fail>, test <pass/fail>
+Wrote (or Proposed): <path[, path...]> (new | updated | existing → diff)
+Stack: <one line per project>
+Commands: <list per project>
+Verified: typecheck <pass/fail/skipped>, lint <pass/fail/skipped>, test <pass/fail/skipped>
 E2E: <runner or "none"> | Seed: <command or "missing">
 Still hand-curate: <one sentence on what needs human eyes>
 ```
