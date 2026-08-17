@@ -96,7 +96,7 @@ Exact commands a future agent MUST run before claiming done: typecheck,
 lint, unit tests, build, and (when relevant) integration/e2e.
 
 ## E2E / UI Verification (if applicable)
-Following the global AGENTS.md §14 rules:
+Following the global AGENTS.md §13 rules:
 - Run dev server: <command>
 - E2E runner and config: <runner> / <config path>
 - Seed/fixture command: <command> (or "none — write minimal seed first")
