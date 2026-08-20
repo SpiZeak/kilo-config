@@ -339,3 +339,32 @@ Load the `ui-e2e` skill for any UI change: new route/screen/modal/
 component/form, layout or visual change, new data binding, or new
 rendering dependency. Skip for pure backend logic, scripts, build
 tooling, docs.
+
+## 14. z.ai Usage Readout
+
+At the end of every response, present the current z.ai plan usage as a
+short one-liner — **but only when the active session is using z.ai**.
+This applies to every primary-agent reply, not to subagent research
+results.
+
+- Gate on provider: fetch usage only if the current model/provider is
+  `z.ai` (e.g. model IDs under a z.ai provider, or the session is on
+  the z.ai plan). If the session runs on another provider, omit the
+  readout entirely — no fetch, no log line.
+- Fetch usage once per reply with the `bash` tool:
+  ```
+  curl -s -H "Authorization: Bearer $ZAI_API_KEY" \
+    -H "Accept: application/json" \
+    "https://api.z.ai/api/monitor/usage/quota/limit"
+  ```
+- The key comes from the `ZAI_API_KEY` env var. It must never be
+  echoed into the chat, logs, or files, and must never be read from a
+  file or hardcoded into this or any other config.
+- Reduce the JSON to a single concise line, e.g.
+  `z.ai usage: <used>/<quota> (<pct>%) — <n> remaining`. Pick the
+  meaningfully-named fields; do not dump raw JSON unless asked.
+- If `$ZAI_API_KEY` is unset, the curl is skipped and the one-liner is
+  omitted silently — do not fail the task or flag it as an error.
+- This is a read-only GET against the user's own quota endpoint; it is
+  covered by the §6.3 local-target default, so no `INTENT` pause is
+  required.

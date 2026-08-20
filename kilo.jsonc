@@ -28,8 +28,8 @@
 	"mcp": {
 		"chrome-devtools": {
 			"type": "local",
-			"command": ["bunx", "-y", "chrome-devtools-mcp@latest"],
-			"enabled": false
+			"command": ["bunx", "--bun", "-y", "chrome-devtools-mcp@latest"],
+			"enabled": true
 		}
 	},
 	"permission": {
@@ -43,8 +43,8 @@
 		"batch_tool": true
 	},
 	"auto_collapse_reasoning": true,
-	"model": "fireworks-ai/accounts/fireworks/models/glm-5p2",
-	"hide_prompt_training_models": true,
-	"small_model": "fireworks-ai/accounts/fireworks/models/deepseek-v4-flash-0731",
-	"subagent_model": "fireworks-ai/accounts/fireworks/models/glm-5p2"
+	"model": "zai-coding-plan/glm-5.3",
+  "hide_prompt_training_models": true,
+  "small_model": "fireworks-ai/accounts/fireworks/models/deepseek-v4-flash-0731",
+  "subagent_model": "zai-coding-plan/glm-5.3"
 }
