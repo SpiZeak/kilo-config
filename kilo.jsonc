@@ -1,27 +1,21 @@
 {
 	"$schema": "https://app.kilo.ai/config.json",
 	"provider": {
-		"llama-cpp": {
-			"name": "llama.cpp",
+		"trewhitt": {
+			"name": "Trewhitt",
 			"npm": "@ai-sdk/openai-compatible",
 			"options": {
-				"baseURL": "http://127.0.0.1:9009/v1"
+				"baseURL": "https://ai.trewhitt.se/v1"
 			},
 			"models": {
-				"unsloth/Qwen3.5-9B-MTP-GGUF:UD-Q8_K_XL": {
-					"name": "unsloth/Qwen3.5-9B-MTP-GGUF:UD-Q8_K_XL",
-					"reasoning": true
+				"unsloth/Qwen3.8-27B-GGUF:UD-Q3_K_XL": {
+					"name": "Qwen3.8 27B (UD-Q3_K_XL)",
+					"reasoning": true,
+					"limit": {
+						"context": 170000,
+						"output": 32768
+					},
 				},
-				"unsloth/Qwen3.6-27B-MTP-GGUF:UD-Q4_K_XL": {
-					"name": "unsloth/Qwen3.6-27B-MTP-GGUF:UD-Q4_K_XL",
-					"reasoning": true
-				},
-				"unsloth/Qwen3-Coder-30B-A3B-Instruct-GGUF:UD-Q4_K_XL": {
-					"name": "unsloth/Qwen3-Coder-30B-A3B-Instruct-GGUF:UD-Q4_K_XL"
-				},
-				"unsloth/Qwen3.5-27B-MTP-GGUF:UD-Q4_K_XL": {
-					"name": "unsloth/Qwen3.5-27B-MTP-GGUF:UD-Q4_K_XL"
-				}
 			}
 		}
 	},
@@ -46,9 +40,6 @@
 	"remote_control": true,
 	"hide_prompt_training_models": true,
 	"small_model": "fireworks-ai/accounts/fireworks/models/deepseek-v4-flash-0731",
-	"experimental": {
-		"batch_tool": true
-	},
 	"subagent_model": "zai-coding-plan/glm-5.3",
 	"auto_collapse_reasoning": true
 }
