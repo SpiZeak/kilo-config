@@ -11,6 +11,11 @@
 				"unsloth/Qwen3.8-27B-GGUF:UD-Q3_K_XL": {
 					"name": "Qwen3.8 27B (UD-Q3_K_XL)",
 					"reasoning": true,
+					"attachment": true,
+					"modalities": {
+						"input": ["text", "image"],
+						"output": ["text"]
+					},
 					"limit": {
 						"context": 202000,
 						"output": 32768
