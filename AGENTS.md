@@ -110,6 +110,9 @@ fine for slicing output). The specialized tools are faster, more reliable,
 and never need quoting tricks. Reserve `bash` for commands that genuinely
 require a shell.
 
+JS/TS package operations go through Bun (`bun run` / `bunx`); foreign-pinned
+repos follow their lockfile for installs (see the `typescript` skill §0).
+
 ### 5.2 Parallelize independent calls
 
 When reads/greps/glob are independent, issue them in a single message with
