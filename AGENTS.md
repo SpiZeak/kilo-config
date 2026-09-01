@@ -363,9 +363,27 @@ results.
 - The key comes from the `ZAI_API_KEY` env var. It must never be
   echoed into the chat, logs, or files, and must never be read from a
   file or hardcoded into this or any other config.
-- Reduce the JSON to a single concise line, e.g.
-  `z.ai usage: <used>/<quota> (<pct>%) — <n> remaining`. Pick the
-  meaningfully-named fields; do not dump raw JSON unless asked.
+- Format the response into EXACTLY this fixed template, substituting
+  values verbatim (no re-deriving percentages, no rounding, no extra
+  fields):
+  ```
+  z.ai usage (<level>): 5h <percentage>% — <remaining> left, resets in <reset-in> | weekly <percentage>% — <remaining> left, resets in <reset-in>
+  ```
+  Field mapping, from the JSON `data` object:
+  - `<level>` = `data.level` (e.g. `pro`)
+  - 5h = `data.limits[0]` (the 5-hour window)
+  - weekly = `data.limits[1]` (the weekly window)
+  - within each limit: `<percentage>`/`<remaining>` as-is (omit the raw
+    credit values `currentValue`/`usage`). Identify windows by array
+    order (`0` = 5h, `1` = weekly), never by the `unit`/`number` fields.
+  - `<reset-in>` = countdown from now until `nextResetTime` (epoch
+    **milliseconds**), via
+    `awk -v s="$((nextResetTime / 1000 - $(date +%s)))" 'BEGIN{d=int(s/86400);h=int((s%86400)/3600);m=int((s%3600)/60);if(d)printf "%dd %dh",d,h;else if(h)printf "%dh %dm",h,m;else printf "%dm",m}'`
+    — i.e. `Nd Nh` when ≥1 day, else `Nh Nm`, else `Nm`. Never negative;
+    if the window just rolled over, refetch once.
+  Example for real output:
+  `z.ai usage (pro): 5h 62% — 4455 left, resets in 2h 16m | weekly 66% — 20316 left, resets in 22h 0m`
+  Never dump raw JSON unless asked.
 - If `$ZAI_API_KEY` is unset, the curl is skipped and the one-liner is
   omitted silently — do not fail the task or flag it as an error.
 - This is a read-only GET against the user's own quota endpoint; it is
