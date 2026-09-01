@@ -16,19 +16,19 @@
 						"input": ["text", "image"],
 						"output": ["text"]
 					},
-				"limit": {
-					"context": 206000,
-					"output": 32768
-				},
-				"options": {
-					"reasoningEffort": "xhigh"
-				},
-				"variants": {
-					"xhigh": { "reasoningEffort": "xhigh" },
-					"medium": { "reasoningEffort": "medium" },
-					"low": { "reasoningEffort": "low" }
+					"limit": {
+						"context": 206000,
+						"output": 32768
+					},
+					"options": {
+						"reasoningEffort": "xhigh"
+					},
+					"variants": {
+						"xhigh": { "reasoningEffort": "xhigh" },
+						"medium": { "reasoningEffort": "medium" },
+						"low": { "reasoningEffort": "low" }
+					}
 				}
-			},
 			}
 		}
 	},
@@ -44,7 +44,7 @@
 		"read": {
 			"*": "allow"
 		},
-		"webfetch": "ask"
+		"webfetch": "allow"
 	},
 	"experimental": {
 		"batch_tool": true
@@ -52,7 +52,7 @@
 	"model": "zai-coding-plan/glm-5.3",
 	"remote_control": true,
 	"hide_prompt_training_models": true,
-	"small_model": "fireworks-ai/accounts/fireworks/models/deepseek-v4-flash-0731",
+	"small_model": "zai-coding-plan/glm-5.3-flash",
 	"subagent_model": "zai-coding-plan/glm-5.3",
 	"auto_collapse_reasoning": true
 }
