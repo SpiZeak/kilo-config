@@ -41,6 +41,8 @@ Route by intent even if repo kind is broad (like `wp-site`):
   - Route → `wp-plugin-development`.
 - **REST endpoint / register_rest_route / permission_callback**
   - Route → `wp-rest-api`.
+- **Multisite / network / switch_to_blog / network activation / sunrise.php / network admin / wp site \* (lifecycle, not CLI targeting)**
+  - Route → `wp-multisite`. For CLI targeting flags (`--url`, `--network`), stay in `wp-wpcli-and-ops`.
 - **WP-CLI / wp-cli.yml / commands**
   - Route → `wp-wpcli-and-ops`.
 - **Build tooling / @wordpress/scripts / webpack / Vite / npm scripts**

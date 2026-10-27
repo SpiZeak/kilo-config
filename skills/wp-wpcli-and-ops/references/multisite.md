@@ -20,3 +20,8 @@ Use this file any time you might be operating on multisite.
 - If you need to run something across sites, prefer scripting:
   - list sites → iterate → run a safe per-site command.
 
+## See also
+
+- Multisite concepts (setup, site lifecycle, network admin, `switch_to_blog`,
+  domain mapping): `wp-multisite` skill.
+
